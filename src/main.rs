@@ -2,7 +2,6 @@ use std::fs;
 use std::path::Path;
 use std::error::Error;
 use std::process;
-use std::collections::HashMap;
 
 fn main() {
     if let Err(ref e) = run(Path::new(".")) {
@@ -22,26 +21,24 @@ fn run(dir: &Path) -> Result<(), Box<dyn Error>> {
             
             let metadata = entry
                               .metadata()?;
+                            
+            let file_type_str = get_file_type(&metadata).unwrap_or("unknown");
 
-            // let file_type_str = get_file_type(&metadata).unwrap_or("unknown");
-
-            // println!("{:?}", file_type_str());
-            
-            println!("{}", file_name);
+            println!("{} {}", file_type_str, file_name);
             
         }
     }
     Ok(())
 }
 
-// fn get_file_type(metadata: &fs::Metadata) -> Option<&'static str> {
-//     if metadata.is_file() {
-//         ("-")
-//     } else if metadata.is_dir() {
-//         "d"
-//     } else if metadata.file_type().is_symlink() {
-//         "s"
-//     } else {
-//         None
-//     }
-// }
+fn get_file_type(metadata: &fs::Metadata) -> Option<&'static str> {
+    if metadata.is_file() {
+        Some("-")
+    } else if metadata.is_dir() {
+        Some("d")
+    } else if metadata.file_type().is_symlink() {
+        Some("s")
+    } else {
+        None
+    }
+}
