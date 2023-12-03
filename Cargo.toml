@@ -1,0 +1,8 @@
+[package]
+name = "rust-cli-tools"
+version = "0.1.0"
+authors = ["Sophie Kruijt"]
+edition = "2021"
+readme = "README.md"
+
+[dependencies]
