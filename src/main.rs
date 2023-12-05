@@ -1,6 +1,6 @@
+use std::error::Error;
 use std::fs;
 use std::path::Path;
-use std::error::Error;
 use std::process;
 
 fn main() {
@@ -15,17 +15,15 @@ fn run(dir: &Path) -> Result<(), Box<dyn Error>> {
         for entry in fs::read_dir(dir)? {
             let entry = entry?;
             let file_name = entry
-                            .file_name()
-                            .into_string()
-                            .or_else(|f| Err(format!("Invalid entry: {:?}", f)))?;
-            
-            let metadata = entry
-                              .metadata()?;
-                            
+                .file_name()
+                .into_string()
+                .or_else(|f| Err(format!("Invalid entry: {:?}", f)))?;
+
+            let metadata = entry.metadata()?;
+
             let file_type_str = get_file_type(&metadata).unwrap_or("unknown");
 
             println!("{} {}", file_type_str, file_name);
-            
         }
     }
     Ok(())
